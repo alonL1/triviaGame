@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trivia Showdown - Start Game</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0;
+            color: white;
+        }
+        .container {
+            text-align: center;
+            background: rgba(255,255,255,0.1);
+            backdrop-filter: blur(10px);
+            padding: 40px;
+            border-radius: 20px;
+            border: 1px solid rgba(255,255,255,0.2);
+            max-width: 600px;
+        }
+        h1 { font-size: 3rem; margin-bottom: 20px; text-shadow: 2px 2px 4px rgba(0,0,0,0.3); }
+        p { font-size: 1.2rem; margin-bottom: 30px; opacity: 0.9; }
+        .btn {
+            display: inline-block;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            text-decoration: none;
+            padding: 15px 40px;
+            font-size: 1.2rem;
+            font-weight: 600;
+            border-radius: 12px;
+            margin: 10px;
+            transition: all 0.3s ease;
+        }
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.3);
+        }
+        .instructions {
+            background: rgba(255,255,255,0.1);
+            padding: 20px;
+            border-radius: 15px;
+            margin-top: 30px;
+            text-align: left;
+        }
+        .instructions h3 { color: #FFD700; margin-bottom: 15px; }
+        .instructions ol { padding-left: 20px; }
+        .instructions li { margin-bottom: 10px; line-height: 1.5; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🧠 Trivia Showdown</h1>
+        <p>Ready to challenge your friends in the ultimate trivia battle?</p>
+
+        <a href="index.html" class="btn">🚀 Start Game Now</a>
+
+        <div class="instructions">
+            <h3>📋 Quick Instructions:</h3>
+            <ol>
+                <li><strong>Choose a Topic:</strong> Enter any subject you want to be quizzed on</li>
+                <li><strong>Two Players:</strong> Player 1 uses WASD keys, Player 2 uses Arrow keys</li>
+                <li><strong>Answer Fast:</strong> You have 15 seconds per question</li>
+                <li><strong>Beat Your Friend:</strong> Get the most correct answers to win!</li>
+            </ol>
+
+            <h3>🎮 Controls:</h3>
+            <p>
+                <strong>Player 1:</strong> W (top), A (left), S (bottom), D (right)<br>
+                <strong>Player 2:</strong> ↑ (top), ← (left), ↓ (bottom), → (right)
+            </p>
+        </div>
+
+        <p style="margin-top: 30px; font-size: 0.9rem; opacity: 0.7;">
+            💡 The game works offline with built-in questions for Science, History, and Movies!
+        </p>
+    </div>
+</body>
+</html>

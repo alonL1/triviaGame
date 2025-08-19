@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trivia Showdown</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <!-- Topic Selection Screen -->
+        <div id="topic-screen" class="screen active">
+            <div class="header">
+                <h1>🧠 Trivia Showdown</h1>
+                <p>Two players battle it out in the ultimate trivia challenge!</p>
+            </div>
+
+            <div class="topic-input-section">
+                <label for="topic-input">Choose your trivia topic:</label>
+                <input type="text" id="topic-input" placeholder="e.g., Science, History, Movies, Sports..." maxlength="50">
+                <button id="start-game-btn" class="primary-btn">Start Game</button>
+            </div>
+
+            <div class="controls-info">
+                <div class="player-controls">
+                    <div class="player player1">
+                        <h3>Player 1</h3>
+                        <div class="keys">
+                            <span class="key">W</span>
+                            <span class="key">A</span>
+                            <span class="key">S</span>
+                            <span class="key">D</span>
+                        </div>
+                        <p>Top • Left • Bottom • Right</p>
+                    </div>
+
+                    <div class="vs">VS</div>
+
+                    <div class="player player2">
+                        <h3>Player 2</h3>
+                        <div class="keys">
+                            <span class="key">↑</span>
+                            <span class="key">←</span>
+                            <span class="key">↓</span>
+                            <span class="key">→</span>
+                        </div>
+                        <p>Top • Left • Bottom • Right</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Loading Screen -->
+        <div id="loading-screen" class="screen">
+            <div class="loading-content">
+                <div class="spinner"></div>
+                <h2>Generating Questions...</h2>
+                <p>Preparing your <span id="loading-topic"></span> trivia challenge!</p>
+            </div>
+        </div>
+
+        <!-- Game Screen -->
+        <div id="game-screen" class="screen">
+            <div class="game-header">
+                <div class="scores">
+                    <div class="player-score player1-score">
+                        <span class="player-name">Player 1</span>
+                        <span class="score" id="player1-score">0</span>
+                    </div>
+
+                    <div class="question-counter">
+                        <span id="current-question">1</span> / <span id="total-questions">10</span>
+                    </div>
+
+                    <div class="player-score player2-score">
+                        <span class="player-name">Player 2</span>
+                        <span class="score" id="player2-score">0</span>
+                    </div>
+                </div>
+
+                <div class="timer-container">
+                    <div class="timer-bar">
+                        <div class="timer-fill" id="timer-fill"></div>
+                    </div>
+                    <span class="timer-text" id="timer-text">15</span>
+                </div>
+            </div>
+
+            <div class="question-section">
+                <h2 id="question-text">Question will appear here...</h2>
+            </div>
+
+            <div class="answers-grid" id="answers-grid">
+                <div class="answer-option" data-index="0">
+                    <span class="answer-key">W / ↑</span>
+                    <span class="answer-text" id="answer-0">Answer A</span>
+                </div>
+                <div class="answer-option" data-index="1">
+                    <span class="answer-key">A / ←</span>
+                    <span class="answer-text" id="answer-1">Answer B</span>
+                </div>
+                <div class="answer-option" data-index="2">
+                    <span class="answer-key">S / ↓</span>
+                    <span class="answer-text" id="answer-2">Answer C</span>
+                </div>
+                <div class="answer-option" data-index="3">
+                    <span class="answer-key">D / →</span>
+                    <span class="answer-text" id="answer-3">Answer D</span>
+                </div>
+            </div>
+
+            <div class="player-selections" id="player-selections">
+                <div class="selection player1-selection">
+                    <span class="player-name">Player 1:</span>
+                    <span class="selection-text" id="player1-selection">No selection</span>
+                </div>
+                <div class="selection player2-selection">
+                    <span class="player-name">Player 2:</span>
+                    <span class="selection-text" id="player2-selection">No selection</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Results Screen -->
+        <div id="results-screen" class="screen">
+            <div class="results-content">
+                <h1>Game Over!</h1>
+                <div class="final-scores">
+                    <div class="final-score player1-final">
+                        <h2>Player 1</h2>
+                        <span class="final-score-value" id="final-player1-score">0</span>
+                    </div>
+                    <div class="winner-announcement" id="winner-announcement">
+                        <h2>It's a Tie!</h2>
+                    </div>
+                    <div class="final-score player2-final">
+                        <h2>Player 2</h2>
+                        <span class="final-score-value" id="final-player2-score">0</span>
+                    </div>
+                </div>
+                <button id="play-again-btn" class="primary-btn">Play Again</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
