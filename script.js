@@ -267,32 +267,59 @@ class TriviaGame {
         document.getElementById('current-question').textContent = this.currentQuestionIndex + 1;
         document.getElementById('total-questions').textContent = this.questions.length;
 
+        // Hide answers initially
+        const answersGrid = document.getElementById('answers-grid');
+        answersGrid.classList.remove('visible');
+
         // Show question
         document.getElementById('question-text').textContent = question.question;
 
-        // Show answers
-        question.answers.forEach((answer, index) => {
-            document.getElementById(`answer-${index}`).textContent = answer;
-        });
-
-        // Reset answer options styling
+        // Reset answer options styling and hide player icons
         document.querySelectorAll('.answer-option').forEach(option => {
             option.className = 'answer-option';
+        });
+
+        // Hide all player icons
+        document.querySelectorAll('.player-icon').forEach(icon => {
+            icon.style.display = 'none';
+        });
+
+        // Hide player icon containers
+        document.querySelectorAll('.player-icons').forEach(container => {
+            container.classList.remove('visible');
         });
 
         // Reset player selections display
         this.updatePlayerSelections();
 
-        // Start timer
-        this.startTimer();
+        // Show answers after 2.5 seconds
+        setTimeout(() => {
+            // Show answers
+            question.answers.forEach((answer, index) => {
+                document.getElementById(`answer-${index}`).textContent = answer;
+            });
+
+            // Make answers visible with animation
+            answersGrid.classList.add('visible');
+
+            // Start timer after answers are shown
+            setTimeout(() => {
+                this.startTimer();
+            }, 500); // Small delay for animation to complete
+        }, 2500);
     }
 
     selectAnswer(player, answerIndex) {
         if (this.questionAnswered) return;
 
+        // Only allow selection if answers are visible
+        const answersGrid = document.getElementById('answers-grid');
+        if (!answersGrid.classList.contains('visible')) return;
+
         this.playerSelections[player] = answerIndex;
         this.updatePlayerSelections();
-        this.highlightPlayerSelection(player, answerIndex);
+
+        // Don't show selection visually until reveal
 
         // Check if both players have answered
         if (this.playerSelections.player1 !== null && this.playerSelections.player2 !== null) {
@@ -300,26 +327,20 @@ class TriviaGame {
         }
     }
 
-    highlightPlayerSelection(player, answerIndex) {
-        // Remove previous selections for this player
-        document.querySelectorAll(`.selected-${player}`).forEach(el => {
-            el.classList.remove(`selected-${player}`);
-        });
-
-        // Add selection highlight
-        const answerOption = document.querySelector(`[data-index="${answerIndex}"]`);
-        answerOption.classList.add(`selected-${player}`);
-    }
-
     updatePlayerSelections() {
-        const getAnswerText = (index) => {
+        // const getAnswerText = (index) => {
+        //     if (index === null) return 'No selection';
+        //     const letters = ['A', 'B', 'C', 'D'];
+        //     return `${letters[index]} - ${this.questions[this.currentQuestionIndex].answers[index]}`;
+        // };
+
+        const getIsSelected = (index) => {
             if (index === null) return 'No selection';
-            const letters = ['A', 'B', 'C', 'D'];
-            return `${letters[index]} - ${this.questions[this.currentQuestionIndex].answers[index]}`;
+            return 'Answer Selected'
         };
 
-        document.getElementById('player1-selection').textContent = getAnswerText(this.playerSelections.player1);
-        document.getElementById('player2-selection').textContent = getAnswerText(this.playerSelections.player2);
+        document.getElementById('player1-selection').textContent = getIsSelected(this.playerSelections.player1);
+        document.getElementById('player2-selection').textContent = getIsSelected(this.playerSelections.player2);
     }
 
     startTimer() {
@@ -351,6 +372,9 @@ class TriviaGame {
         const question = this.questions[this.currentQuestionIndex];
         const correctIndex = question.correct;
 
+        // Show player selections with icons
+        this.revealPlayerSelections();
+
         // Highlight correct answer
         document.querySelector(`[data-index="${correctIndex}"]`).classList.add('correct');
 
@@ -374,6 +398,23 @@ class TriviaGame {
             this.currentQuestionIndex++;
             this.showQuestion();
         }, 3000);
+    }
+
+    revealPlayerSelections() {
+        // Show player icons for their selections
+        if (this.playerSelections.player1 !== null) {
+            const player1Icon = document.getElementById(`player1-icon-${this.playerSelections.player1}`);
+            const iconContainer = document.getElementById(`player-icons-${this.playerSelections.player1}`);
+            player1Icon.style.display = 'flex';
+            iconContainer.classList.add('visible');
+        }
+
+        if (this.playerSelections.player2 !== null) {
+            const player2Icon = document.getElementById(`player2-icon-${this.playerSelections.player2}`);
+            const iconContainer = document.getElementById(`player-icons-${this.playerSelections.player2}`);
+            player2Icon.style.display = 'flex';
+            iconContainer.classList.add('visible');
+        }
     }
 
     updateScoreDisplay() {
@@ -433,20 +474,25 @@ document.addEventListener('DOMContentLoaded', () => {
 
 // Add some visual feedback for key presses
 document.addEventListener('keydown', (e) => {
-    const keyMappings = {
-        'w': 0, 'a': 1, 's': 2, 'd': 3,
-        'arrowup': 0, 'arrowleft': 1, 'arrowdown': 2, 'arrowright': 3
-    };
-
     const key = e.key.toLowerCase();
-    if (keyMappings.hasOwnProperty(key)) {
-        const answerIndex = keyMappings[key];
-        const answerOption = document.querySelector(`[data-index="${answerIndex}"]`);
-        if (answerOption) {
-            answerOption.style.transform = 'scale(0.95)';
-            setTimeout(() => {
-                answerOption.style.transform = '';
-            }, 100);
-        }
-    }
+    const wasd = new Set(['w', 'a', 's', 'd']);
+
+    // Decide which selection element to pulse
+    const targetEl = key.startsWith('arrow')
+      ? document.getElementById('player2-selection')
+      : (wasd.has(key) ? document.getElementById('player1-selection') : null);
+
+    if (!targetEl) return;
+
+    // Apply both transform + background shade
+    targetEl.style.transition = 'transform 120ms ease, background-color 120ms ease';
+    targetEl.style.transform = 'scale(0.95)';
+    targetEl.style.backgroundColor = '#e0e0e0'; // light gray shade
+
+    setTimeout(() => {
+      targetEl.style.transform = '';
+      targetEl.style.backgroundColor = ''; // revert back
+    }, 120);
 });
+
+
