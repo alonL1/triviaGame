@@ -141,3 +141,7 @@ vite.config.ts.timestamp-*
 # Custom project ignores
 config.env
 *.env.local
+
+config.env
+.env
+.env.*
